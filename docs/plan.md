@@ -110,28 +110,27 @@ react-router-dom recharts`.
       IDs, `add` / `remove` / `toggle` / `has`, `localStorage`).
 - [x] `theme-toggle` — `components/ThemeToggle.tsx` (icon button, `aria-label`).
 
-### Phase 4 — table UI
+### Phase 4 — table UI ✅
 
-- `formatters` — `lib/formatters.ts` (`formatPrice`, `formatPercent`,
-  `formatMarketCap`, `formatVolume`).
-- `shared-ui` — `components/Spinner.tsx`, `components/ErrorState.tsx`,
-  `components/Pagination.tsx`.
-- `price-change` — `features/coins/components/PriceChange.tsx` (color + sign,
-  wrapped in `React.memo`).
-- `favorite-button` — `features/coins/components/FavoriteButton.tsx`.
-- `coin-row` — `features/coins/components/CoinRow.tsx` (`React.memo`, link to
-  `/coin/:id`).
-- `use-sort-hook` — `hooks/useSort.ts` — generic `useSort<T>` returning sorted
-  array + active key/direction (memoized with `useMemo`).
-- `use-coin-filters-hook` — `features/coins/hooks/useCoinFilters.ts`
-  (price range, market cap range, volume range, gainers/losers toggle).
-- `coin-filters` — `features/coins/components/CoinFilters.tsx`.
-- `coins-table` — `features/coins/components/CoinsTable.tsx` (semantic table,
-  sortable headers with `aria-sort`).
-- `coins-list-page` — `features/coins/pages/CoinsListPage.tsx` (compose hook +
-  filters + sort + table + loading/error states).
-- `virtualization` _(only if needed)_ — add `@tanstack/react-virtual` once the
-  100-row table actually shows perf issues. Justify the dependency before adding.
+- [x] `formatters` — `lib/formatters.ts` (`formatPrice`, `formatPercent`,
+      `formatMarketCap`, `formatVolume`).
+- [x] `shared-ui` — `components/Spinner.tsx`, `components/ErrorState.tsx`
+      (Pagination skipped — single page of 100 coins, not needed).
+- [x] `price-change` — `features/coins/components/PriceChange.tsx` (color + sign,
+      wrapped in `React.memo`).
+- [x] `favorite-button` — `features/coins/components/FavoriteButton.tsx`.
+- [x] `coin-row` — `features/coins/components/CoinRow.tsx` (`React.memo`, link to
+      `/coin/:id`).
+- [x] `use-sort-hook` — `hooks/useSort.ts` — generic `useSort<T>` returning sorted
+      array + active key/direction (memoized with `useMemo`).
+- [x] `use-coin-filters-hook` — `features/coins/hooks/useCoinFilters.ts`
+      (search, price range, market cap floor, volume floor, gainers/losers, favorites-only).
+- [x] `coin-filters` — `features/coins/components/CoinFilters.tsx`.
+- [x] `coins-table` — `features/coins/components/CoinsTable.tsx` (semantic table,
+      sortable headers with `aria-sort`).
+- [x] `coins-list-page` — `features/coins/pages/CoinsListPage.tsx` (compose hook +
+      filters + sort + table + loading/error states).
+- [ ] `virtualization` _(only if needed)_ — defer until measured.
 
 ### Phase 5 — details view (chart is required for this project, even though
 
