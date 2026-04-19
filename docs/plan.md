@@ -145,19 +145,19 @@ react-router-dom recharts`.
 > stron. Pełnotekstowa wyszukiwarka wymagałaby `/search` + osobnego
 > hydratora rynkowego po `ids` — odkładamy do ewentualnej Phase 8.
 
-### Phase 5 — details view (chart is required for this project, even though
+### Phase 5 — details view ✅ (chart is required for this project, even though
 
 the spec only mentions Recharts as part of the stack)
 
-- `coin-details-page` — `features/coins/pages/CoinDetailsPage.tsx` (header,
-  stats grid, sanitized description, embeds `PriceChart`).
-- `price-chart` — `features/coins/components/PriceChart.tsx` (Recharts
-  `LineChart` inside `ResponsiveContainer`, range selector 1/7/30/365, USD
-  axis formatter, tooltip with formatted price + date). **Must be visible on
-  the details page** — this is an explicit project requirement on top of the
-  PDF spec.
-- `back-navigation` — link/breadcrumb back to the list (preserve filters via
-  URL params if practical).
+- [x] `coin-details-page` — `features/coins/pages/CoinDetailsPage.tsx` (header,
+      stats grid, sanitized description, embeds `PriceChart`).
+- [x] `price-chart` — `features/coins/components/PriceChart.tsx` (Recharts
+      `LineChart` inside `ResponsiveContainer`, range selector 1/7/30/365, USD
+      axis formatter, tooltip with formatted price + date). **Must be visible on
+      the details page** — this is an explicit project requirement on top of the
+      PDF spec.
+- [x] `back-navigation` — link/breadcrumb back to the list (preserve filters via
+      URL params if practical).
 
 ### Phase 6 — testing
 

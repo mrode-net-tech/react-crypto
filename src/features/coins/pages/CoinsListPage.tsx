@@ -11,8 +11,14 @@ import { CoinFilters } from '../components/CoinFilters';
 import { CoinsTable } from '../components/CoinsTable';
 
 export default function CoinsListPage() {
-  const { state, setOrder, setCategory, setPage, setFavoritesOnly, reset } =
-    useCoinsControls();
+  const {
+    state,
+    setOrder,
+    setCategory,
+    setPage,
+    setFavoritesOnly,
+    reset
+  } = useCoinsControls();
 
   const { favorites } = useFavorites();
   const favoriteIds = useMemo(() => Array.from(favorites), [favorites]);

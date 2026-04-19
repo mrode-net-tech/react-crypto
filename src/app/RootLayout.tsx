@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import { Spinner } from '../components/Spinner';
 import { ThemeToggle } from '../components/ThemeToggle';
 
 export default function RootLayout() {
@@ -16,7 +18,9 @@ export default function RootLayout() {
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-4 py-6">
-        <Outlet />
+        <Suspense fallback={<Spinner label="Loading…" />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );

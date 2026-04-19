@@ -57,3 +57,25 @@ export function formatVolume(value: number | null | undefined): string {
   if (value == null || !Number.isFinite(value)) return PLACEHOLDER;
   return compactFormatter.format(value);
 }
+
+const dateShortFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+});
+
+const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+
+/** Short axis label like "Apr 19". */
+export function formatChartDate(timestamp: number): string {
+  return dateShortFormatter.format(timestamp);
+}
+
+/** Full label for tooltips: "Apr 19, 02:34 PM". */
+export function formatChartDateTime(timestamp: number): string {
+  return dateTimeFormatter.format(timestamp);
+}

@@ -1,7 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy } from 'react';
 import RootLayout from './RootLayout';
 import CoinsListPage from '../features/coins/pages/CoinsListPage';
-import CoinDetailsPage from '../features/coins/pages/CoinDetailsPage';
+
+/* eslint-disable react-refresh/only-export-components */
+const CoinDetailsPage = lazy(
+  () => import('../features/coins/pages/CoinDetailsPage'),
+);
 
 export const router = createBrowserRouter([
   {
