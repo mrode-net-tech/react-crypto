@@ -67,21 +67,22 @@ See `docs/architecture.md`.
 - [x] `ts-strict-verify` — confirm `tsconfig.app.json` has `strict: true` and the
       React 19 / Vite types resolve.
 
-### Phase 1 — deps & infrastructure
+### Phase 1 — deps & infrastructure ✅
 
-- `deps-runtime` — `npm i @tanstack/react-query @tanstack/react-query-devtools
-react-router-dom recharts`.
-- `deps-test` — `npm i -D vitest @testing-library/react @testing-library/jest-dom
-@testing-library/user-event jsdom`.
-- `prettier-setup` — `npm i -D prettier eslint-config-prettier`, add
-  `.prettierrc.json` + `.prettierignore`, append `prettier` to the ESLint flat
-  config `extends`, and add `format` / `format:check` scripts in
-  `package.json`.
-- `query-client-setup` — `src/app/queryClient.ts` with sensible defaults
-  (`staleTime`, `refetchInterval` per-query, `placeholderData: keepPreviousData`).
-- `router-setup` — `src/app/router.tsx` with `/` and `/coin/:id` + shared layout.
-- `providers-wireup` — `src/main.tsx` mounts `<QueryClientProvider>`,
-  `<ThemeProvider>`, `<FavoritesProvider>`, `<RouterProvider>`, devtools.
+- [x] `deps-runtime` — `npm i @tanstack/react-query @tanstack/react-query-devtools
+    react-router-dom recharts`.
+- [x] `deps-test` — `npm i -D vitest @testing-library/react @testing-library/jest-dom
+    @testing-library/user-event jsdom`.
+- [x] `prettier-setup` — `npm i -D prettier eslint-config-prettier`, add
+      `.prettierrc.json` + `.prettierignore`, append `prettier` to the ESLint flat
+      config `extends`, and add `format` / `format:check` scripts in
+      `package.json`.
+- [x] `query-client-setup` — `src/app/queryClient.ts` with sensible defaults
+      (`staleTime`, `refetchInterval` per-query, `placeholderData: keepPreviousData`).
+- [x] `router-setup` — `src/app/router.tsx` with `/` and `/coin/:id` + shared layout.
+- [x] `providers-wireup` — `src/main.tsx` mounts `<QueryClientProvider>`,
+      `<RouterProvider>`, devtools. _ThemeProvider/FavoritesProvider plug in
+      during Phase 3 once those contexts exist._
 
 ### Phase 2 — typed data layer
 
