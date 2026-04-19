@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/*
+  Dark mode: opt-in via a `.dark` class on <html> (toggled by ThemeContext).
+  Tailwind v4 needs an explicit @custom-variant to use the class strategy
+  instead of the default `prefers-color-scheme` media query.
+*/
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body,
+#root {
+  min-height: 100svh;
+}
+
+body {
+  @apply bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+}

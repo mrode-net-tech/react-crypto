@@ -50,15 +50,15 @@ See `docs/architecture.md`.
 
 ## Todos (execution order)
 
-### Phase 0 — config & cleanup
-- `cleanup-template` — remove Vite/React boilerplate (`App.tsx`, `App.css`,
+### Phase 0 — config & cleanup ✅
+- [x] `cleanup-template` — remove Vite/React boilerplate (`App.tsx`, `App.css`,
   demo assets) so we start from a clean slate.
-- `folder-structure` — create `src/{app,components,contexts,features/coins/{api,hooks,components,pages},hooks,lib,styles,types,test}`.
-- `env-setup` — confirm `.env` with `VITE_API_BASE_URL=https://api.coingecko.com/api/v3`
+- [x] `folder-structure` — create `src/{app,components,contexts,features/coins/{api,hooks,components,pages},hooks,lib,styles,types,test}`.
+- [x] `env-setup` — confirm `.env` with `VITE_API_BASE_URL=https://api.coingecko.com/api/v3`
   (fix `.env.example` to use the `VITE_` prefix so Vite exposes it).
-- `tailwind-darkmode` — configure Tailwind v4 dark mode (`class` strategy) and
+- [x] `tailwind-darkmode` — configure Tailwind v4 dark mode (`class` strategy) and
   do a utility smoke test.
-- `ts-strict-verify` — confirm `tsconfig.app.json` has `strict: true` and the
+- [x] `ts-strict-verify` — confirm `tsconfig.app.json` has `strict: true` and the
   React 19 / Vite types resolve.
 
 ### Phase 1 — deps & infrastructure
