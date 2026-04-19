@@ -1,6 +1,7 @@
 # Work Plan — react-crypto
 
 ## Goal
+
 A small **Crypto Dashboard** (inspired by coingecko.com) built with **React 19 +
 TypeScript + Vite**, **TanStack Query** for data fetching and **Recharts** for
 charts. The core deliverable is a rich coins table (filter / sort / paginate or
@@ -12,6 +13,7 @@ This is the **second iteration** of the project. The previous one was JavaScript
 and is being rebuilt from the Vite scaffold using **TypeScript** end-to-end.
 
 ## Product decisions
+
 - Default currency: **USD**.
 - Initial dataset: **100 coins** (CoinGecko `per_page=100`).
 - Table behavior: **sortable columns** + **filters** (price range, market cap,
@@ -27,6 +29,7 @@ and is being rebuilt from the Vite scaffold using **TypeScript** end-to-end.
 - Testing: **Vitest + React Testing Library**.
 
 ## Stack
+
 - **Vite 8**, **React 19**, **TypeScript** (strict).
 - **Tailwind CSS v4** via `@tailwindcss/vite` (dark mode via `class` strategy).
 - **TanStack Query v5** + devtools.
@@ -38,6 +41,7 @@ and is being rebuilt from the Vite scaffold using **TypeScript** end-to-end.
 - **Prettier** + `eslint-config-prettier`.
 
 ## TypeScript ground rules
+
 - `strict: true` (incl. `noImplicitAny`, `strictNullChecks`).
 - **Never** use `any`. Use `unknown` + narrowing if a type is genuinely unknown.
 - Type all component props with `interface` (or `type` for unions/aliases).
@@ -46,26 +50,29 @@ and is being rebuilt from the Vite scaffold using **TypeScript** end-to-end.
 - Prefer `import type { ... }` for type-only imports.
 
 ## Folder structure
+
 See `docs/architecture.md`.
 
 ## Todos (execution order)
 
 ### Phase 0 — config & cleanup ✅
+
 - [x] `cleanup-template` — remove Vite/React boilerplate (`App.tsx`, `App.css`,
-  demo assets) so we start from a clean slate.
+      demo assets) so we start from a clean slate.
 - [x] `folder-structure` — create `src/{app,components,contexts,features/coins/{api,hooks,components,pages},hooks,lib,styles,types,test}`.
 - [x] `env-setup` — confirm `.env` with `VITE_API_BASE_URL=https://api.coingecko.com/api/v3`
-  (fix `.env.example` to use the `VITE_` prefix so Vite exposes it).
+      (fix `.env.example` to use the `VITE_` prefix so Vite exposes it).
 - [x] `tailwind-darkmode` — configure Tailwind v4 dark mode (`class` strategy) and
-  do a utility smoke test.
+      do a utility smoke test.
 - [x] `ts-strict-verify` — confirm `tsconfig.app.json` has `strict: true` and the
-  React 19 / Vite types resolve.
+      React 19 / Vite types resolve.
 
 ### Phase 1 — deps & infrastructure
+
 - `deps-runtime` — `npm i @tanstack/react-query @tanstack/react-query-devtools
-  react-router-dom recharts`.
+react-router-dom recharts`.
 - `deps-test` — `npm i -D vitest @testing-library/react @testing-library/jest-dom
-  @testing-library/user-event jsdom`.
+@testing-library/user-event jsdom`.
 - `prettier-setup` — `npm i -D prettier eslint-config-prettier`, add
   `.prettierrc.json` + `.prettierignore`, append `prettier` to the ESLint flat
   config `extends`, and add `format` / `format:check` scripts in
@@ -77,6 +84,7 @@ See `docs/architecture.md`.
   `<ThemeProvider>`, `<FavoritesProvider>`, `<RouterProvider>`, devtools.
 
 ### Phase 2 — typed data layer
+
 - `types-coingecko` — `src/types/coingecko.ts` (`CoinMarket`, `CoinDetails`,
   `MarketChartPoint`, query params).
 - `api-client` — `src/lib/apiClient.ts` (typed `fetchJson<T>(path, params?)`,
@@ -94,6 +102,7 @@ See `docs/architecture.md`.
 - `use-market-chart-query` — `features/coins/hooks/useMarketChartQuery.ts`.
 
 ### Phase 3 — contexts
+
 - `theme-context` — `contexts/ThemeContext.tsx` (`light` | `dark`,
   `localStorage`, system preference fallback).
 - `favorites-context` — `contexts/FavoritesContext.tsx` (`Set<string>` of coin
@@ -101,6 +110,7 @@ See `docs/architecture.md`.
 - `theme-toggle` — `components/ThemeToggle.tsx` (icon button, `aria-label`).
 
 ### Phase 4 — table UI
+
 - `formatters` — `lib/formatters.ts` (`formatPrice`, `formatPercent`,
   `formatMarketCap`, `formatVolume`).
 - `shared-ui` — `components/Spinner.tsx`, `components/ErrorState.tsx`,
@@ -119,11 +129,13 @@ See `docs/architecture.md`.
   sortable headers with `aria-sort`).
 - `coins-list-page` — `features/coins/pages/CoinsListPage.tsx` (compose hook +
   filters + sort + table + loading/error states).
-- `virtualization` *(only if needed)* — add `@tanstack/react-virtual` once the
+- `virtualization` _(only if needed)_ — add `@tanstack/react-virtual` once the
   100-row table actually shows perf issues. Justify the dependency before adding.
 
 ### Phase 5 — details view (chart is required for this project, even though
+
 the spec only mentions Recharts as part of the stack)
+
 - `coin-details-page` — `features/coins/pages/CoinDetailsPage.tsx` (header,
   stats grid, sanitized description, embeds `PriceChart`).
 - `price-chart` — `features/coins/components/PriceChart.tsx` (Recharts
@@ -135,6 +147,7 @@ the spec only mentions Recharts as part of the stack)
   URL params if practical).
 
 ### Phase 6 — testing
+
 - `vitest-setup` — `vitest.config.ts` (jsdom env), `src/test/setup.ts`
   (`@testing-library/jest-dom`), update `package.json` scripts (`test`,
   `test:watch`).
@@ -146,11 +159,13 @@ the spec only mentions Recharts as part of the stack)
 - `test-coin-row` — renders price change and favorite button correctly.
 
 ### Phase 7 — polish
+
 - `responsive-a11y` — mobile-first review, focus states, `aria-*`, color
   contrast in both themes.
 - `readme-update` — final README: stack, scripts, env, API, MCP, screenshots.
 
 ## Notes / open questions
+
 - Pagination vs virtualization: ship sortable + filterable table over **100
   coins** first. Add virtualization (or pagination on top of `markets`) only if
   there's a measurable perf or UX issue.

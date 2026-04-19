@@ -1,6 +1,7 @@
 # Architecture
 
 ## Overview
+
 `react-crypto` is a single-page **React 19 + TypeScript** application. It uses
 **TanStack Query v5** for all server state (fetching, caching, auto-refresh)
 and **React Router v7** for navigation between the coins list and a coin
@@ -13,6 +14,7 @@ URL search params or local React state. Two cross-cutting concerns —
 **theme** and **favorites** — live in **Context**.
 
 ## High-level flow
+
 ```
 UI component  ──uses──▶  custom hook (useXxxQuery)
                               │
@@ -30,6 +32,7 @@ UI component  ──uses──▶  custom hook (useXxxQuery)
 ```
 
 ## Folder structure (feature-based, TypeScript)
+
 ```
 src/
   app/                       # composition: providers, router, query client
@@ -82,10 +85,12 @@ src/
 ```
 
 ### Why feature-based?
+
 Grouping by feature keeps related files close together; it scales naturally as
 new features (e.g. portfolio, alerts) are added.
 
 ## Layer responsibilities
+
 - **`app/`** — wiring only: providers, router, QueryClient. No UI.
 - **`components/`** — generic, reusable UI building blocks. No data fetching.
 - **`contexts/`** — cross-cutting state (theme, favorites). Provider + hook
@@ -103,12 +108,15 @@ new features (e.g. portfolio, alerts) are added.
 - **`types/`** — shared DTOs / domain types.
 
 ## Data layer rules
+
 - All HTTP calls go through `lib/apiClient.ts`:
   ```ts
   export async function fetchJson<T>(
     path: string,
-    params?: Record<string, string | number | boolean>
-  ): Promise<T> { /* ... */ }
+    params?: Record<string, string | number | boolean>,
+  ): Promise<T> {
+    /* ... */
+  }
   ```
 - Query keys are defined in `lib/queryKeys.ts` as a typed factory:
   ```ts
@@ -117,7 +125,8 @@ new features (e.g. portfolio, alerts) are added.
       all: ['coins'] as const,
       list: (params: CoinsListParams) => ['coins', 'list', params] as const,
       detail: (id: string) => ['coins', 'detail', id] as const,
-      chart: (id: string, days: number) => ['coins', 'chart', id, days] as const,
+      chart: (id: string, days: number) =>
+        ['coins', 'chart', id, days] as const,
     },
   } as const;
   ```
@@ -128,6 +137,7 @@ new features (e.g. portfolio, alerts) are added.
   flicker.
 
 ## State strategy
+
 - **Server data** → TanStack Query (single source of truth for coin data).
 - **Ephemeral UI** (sort key, filter values, chart range) → URL search params
   when shareable, otherwise local `useState`.
@@ -136,11 +146,13 @@ new features (e.g. portfolio, alerts) are added.
 - No Redux / Zustand. If a third Context appears, reconsider before adding it.
 
 ## Routing
+
 - `/` → `CoinsListPage` (sortable + filterable coins table).
 - `/coin/:id` → `CoinDetailsPage` (stats + Recharts chart with range selector).
 - Shared layout component wraps both routes (header, theme toggle, container).
 
 ## Styling & theming
+
 - Tailwind CSS v4 via `@tailwindcss/vite`. Entry: `src/styles/index.css`.
 - Dark mode via the **`class` strategy**: `<html class="dark">` toggled by
   `ThemeContext`. Use `dark:` variants in markup; don't branch on theme in JS.
@@ -148,6 +160,7 @@ new features (e.g. portfolio, alerts) are added.
   components in `components/` (DRY).
 
 ## Charts
+
 - **Recharts** `<ResponsiveContainer><LineChart>...</LineChart></ResponsiveContainer>`.
 - Data comes from `useMarketChartQuery(id, days)`; the component is presentational.
 - Range selector (`1 / 7 / 30 / 365`) lives next to the chart and drives the
@@ -157,13 +170,15 @@ new features (e.g. portfolio, alerts) are added.
   the user explicitly wants the chart visible.
 
 ## Performance
+
 - Memoize heavy derivations with `useMemo` (sorted/filtered list).
 - Memoize handler props passed to memoized children with `useCallback`.
 - `React.memo` on `CoinRow` and `PriceChange` (rendered up to 100× per page).
-- **Virtualization** (`@tanstack/react-virtual`) is *optional* — add only if
+- **Virtualization** (`@tanstack/react-virtual`) is _optional_ — add only if
   100 rows actually feel slow. Don't add the dependency speculatively.
 
 ## Formatting
+
 - **Prettier** owns formatting; ESLint owns correctness.
 - `eslint-config-prettier` is added to the flat-config `extends` so the two
   tools don't conflict.
@@ -172,6 +187,7 @@ new features (e.g. portfolio, alerts) are added.
 - Scripts: `npm run format` (write) and `npm run format:check` (CI-friendly).
 
 ## Conventions
+
 - **Naming:** components `PascalCase.tsx`, hooks `useCamelCase.ts`, utilities
   `camelCase.ts`, types `PascalCase`, constants `UPPER_SNAKE_CASE`.
 - **Single Responsibility:** if a file does more than one thing, split it.
@@ -184,6 +200,7 @@ new features (e.g. portfolio, alerts) are added.
 - **Comments** explain "why", not "what".
 
 ## TypeScript rules
+
 - `strict: true` end-to-end. No `any` (use `unknown` + narrowing).
 - Prop types via `interface` (extendable), unions/aliases via `type`.
 - API DTOs typed in `src/types/coingecko.ts`; never inline a CoinGecko shape.
@@ -192,13 +209,15 @@ new features (e.g. portfolio, alerts) are added.
 - `import type { ... }` for type-only imports.
 
 ## Environment variables
+
 - `VITE_API_BASE_URL` — base URL for CoinGecko API
   (`https://api.coingecko.com/api/v3`). Vite exposes only `VITE_*`.
 - `.env` is gitignored; `.env.example` is committed.
 
 ## Testing
+
 - **Vitest** (`jsdom`) + **React Testing Library** + `@testing-library/jest-dom`
-  + `@testing-library/user-event`.
+  - `@testing-library/user-event`.
 - Cover: formatters, `apiClient` (mocked `fetch`), `useCoinsQuery` (with a test
   `QueryClientProvider`), `FavoritesContext`, `CoinFilters`, `CoinRow`.
 - Keep tests close to the code (`*.test.ts` / `*.test.tsx` next to the file).

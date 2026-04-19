@@ -31,7 +31,7 @@ specification, based on the **currently staged** changes.
    - lowercase, no trailing period
    - ≤ 72 characters
    - format: `type(scope): subject` or `type: subject`
-6. If the change is non-trivial, add a short **body** explaining the *why*
+6. If the change is non-trivial, add a short **body** explaining the _why_
    (wrap at ~72 chars, separated from the subject by a blank line).
 7. For breaking changes, add a `BREAKING CHANGE:` footer **and** a `!` after
    the type/scope (e.g. `feat(api)!: drop legacy endpoint`).

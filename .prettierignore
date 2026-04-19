@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-ssr
+coverage
+package-lock.json
+*.min.*
+docs/description.pdf
+public/icons.svg
+public/favicon.svg

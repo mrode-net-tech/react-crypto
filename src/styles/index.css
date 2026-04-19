@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /*
   Dark mode: opt-in via a `.dark` class on <html> (toggled by ThemeContext).
