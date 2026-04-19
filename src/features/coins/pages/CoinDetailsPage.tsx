@@ -4,6 +4,7 @@ import DOMPurify from 'dompurify';
 import { ErrorState } from '../../../components/ErrorState';
 import { Spinner } from '../../../components/Spinner';
 import { DEFAULT_CHART_DAYS } from '../../../config/queryConfig';
+import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
 import {
   formatMarketCap,
   formatPercent,
@@ -35,6 +36,7 @@ export default function CoinDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const { data, isPending, isError, refetch } = useCoinQuery(id);
   const [days, setDays] = useState<MarketChartDays>(DEFAULT_CHART_DAYS);
+  useDocumentTitle(data?.name);
 
   return (
     <section className="space-y-6">

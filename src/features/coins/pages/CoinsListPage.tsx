@@ -4,6 +4,7 @@ import { Pagination } from '../../../components/Pagination';
 import { Spinner } from '../../../components/Spinner';
 import { COINS_PER_PAGE } from '../../../config/queryConfig';
 import { useFavorites } from '../../../contexts/favorites';
+import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
 import { useCoinsQuery } from '../hooks/useCoinsQuery';
 import { useFavoriteCoinsQuery } from '../hooks/useFavoriteCoinsQuery';
 import { useCoinsControls } from '../hooks/useCoinsControls';
@@ -11,6 +12,7 @@ import { CoinFilters } from '../components/CoinFilters';
 import { CoinsTable } from '../components/CoinsTable';
 
 export default function CoinsListPage() {
+  useDocumentTitle('Cryptocurrencies');
   const {
     state,
     setOrder,

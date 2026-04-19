@@ -171,11 +171,13 @@ the spec only mentions Recharts as part of the stack)
 - [x] `test-coin-filters` — RTL + `user-event`.
 - [x] `test-coin-row` — renders price change and favorite button correctly.
 
-### Phase 7 — polish
+### Phase 7 — polish ✅
 
-- `responsive-a11y` — mobile-first review, focus states, `aria-*`, color
-  contrast in both themes.
-- `readme-update` — final README: stack, scripts, env, API, MCP, screenshots.
+- [x] `responsive-a11y` — mobile-first review, focus states, `aria-*`, color
+      contrast in both themes. Added skip-to-main link, focus-visible rings,
+      and `useDocumentTitle` for per-route titles.
+- [x] `readme-update` — final README: stack, scripts, env, API, MCP,
+      project layout, a11y notes.
 
 ## Notes / open questions
 
