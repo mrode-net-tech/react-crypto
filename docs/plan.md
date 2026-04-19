@@ -132,6 +132,19 @@ react-router-dom recharts`.
       filters + sort + table + loading/error states).
 - [ ] `virtualization` _(only if needed)_ — defer until measured.
 
+> **Decyzja produktowa — filtry trzymamy się tego, co umie API.**
+> CoinGecko `/coins/markets` wspiera tylko `category`, `order`, `page`,
+> `per_page` (oraz `ids` używane przez tryb favorites). **Świadomie nie
+> implementujemy** wyszukiwarki tekstowej, zakresów ceny / market capu /
+> wolumenu ani „top gainers / losers" — działałyby wyłącznie na 100
+> wierszach aktualnej strony i myliłyby użytkownika („filtruję po cenie
+> > $1, a połowa coinów znika"). Sortowanie jest serwerowe (`order=`),
+> dlatego kolumny Price i % zmiany nie mają afordancji sortowania —
+> API nie wspiera tych kluczy. Tryb „favorites only" pobiera ulubione
+> przez `?ids=` w jednym requeście, więc widzi gwiazdki ze wszystkich
+> stron. Pełnotekstowa wyszukiwarka wymagałaby `/search` + osobnego
+> hydratora rynkowego po `ids` — odkładamy do ewentualnej Phase 8.
+
 ### Phase 5 — details view (chart is required for this project, even though
 
 the spec only mentions Recharts as part of the stack)
