@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "coingecko": {
+      "command": "npx",
+      "args": ["-y", "@coingecko/coingecko-mcp"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    }
+  }
+}
