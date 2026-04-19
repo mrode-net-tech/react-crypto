@@ -1,4 +1,5 @@
 import { Outlet, Link } from 'react-router-dom';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export default function RootLayout() {
   return (
@@ -11,7 +12,7 @@ export default function RootLayout() {
           >
             Crypto Coins
           </Link>
-          {/* ThemeToggle slot — added in Phase 3 */}
+          <ThemeToggle />
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-4 py-6">

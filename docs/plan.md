@@ -102,13 +102,13 @@ react-router-dom recharts`.
 - [x] `use-coin-query` — `features/coins/hooks/useCoinQuery.ts`.
 - [x] `use-market-chart-query` — `features/coins/hooks/useMarketChartQuery.ts`.
 
-### Phase 3 — contexts
+### Phase 3 — contexts ✅
 
-- `theme-context` — `contexts/ThemeContext.tsx` (`light` | `dark`,
-  `localStorage`, system preference fallback).
-- `favorites-context` — `contexts/FavoritesContext.tsx` (`Set<string>` of coin
-  IDs, `add` / `remove` / `toggle` / `has`, `localStorage`).
-- `theme-toggle` — `components/ThemeToggle.tsx` (icon button, `aria-label`).
+- [x] `theme-context` — `contexts/ThemeContext.tsx` (`light` | `dark`,
+      `localStorage`, system preference fallback).
+- [x] `favorites-context` — `contexts/FavoritesContext.tsx` (`Set<string>` of coin
+      IDs, `add` / `remove` / `toggle` / `has`, `localStorage`).
+- [x] `theme-toggle` — `components/ThemeToggle.tsx` (icon button, `aria-label`).
 
 ### Phase 4 — table UI
 

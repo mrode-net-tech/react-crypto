@@ -5,6 +5,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from 'react-router-dom';
 import { queryClient } from './app/queryClient';
 import { router } from './app/router';
+import { ThemeProvider } from './contexts/ThemeProvider';
+import { FavoritesProvider } from './contexts/FavoritesProvider';
 import './styles/index.css';
 
 const rootElement = document.getElementById('root');
@@ -14,9 +16,13 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <ThemeProvider>
+      <FavoritesProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </FavoritesProvider>
+    </ThemeProvider>
   </StrictMode>,
 );

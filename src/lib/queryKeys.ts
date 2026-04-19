@@ -20,6 +20,7 @@ export const queryKeys = {
     all: ['coins'] as const,
     list: (params: CoinsListParams) => ['coins', 'list', params] as const,
     detail: (id: string) => ['coins', 'detail', id] as const,
-    chart: (id: string, days: MarketChartDays) => ['coins', 'chart', id, days] as const,
+    chart: (id: string, days: MarketChartDays) =>
+      ['coins', 'chart', id, days] as const,
   },
 } as const;
