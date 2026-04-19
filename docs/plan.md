@@ -159,17 +159,17 @@ the spec only mentions Recharts as part of the stack)
 - [x] `back-navigation` — link/breadcrumb back to the list (preserve filters via
       URL params if practical).
 
-### Phase 6 — testing
+### Phase 6 — testing ✅
 
-- `vitest-setup` — `vitest.config.ts` (jsdom env), `src/test/setup.ts`
-  (`@testing-library/jest-dom`), update `package.json` scripts (`test`,
-  `test:watch`).
-- `test-formatters` — pure unit tests.
-- `test-api-client` — mocked `fetch`, error path.
-- `test-use-coins-query` — render hook with `QueryClientProvider`.
-- `test-favorites-context` — add / remove / persist.
-- `test-coin-filters` — RTL + `user-event`.
-- `test-coin-row` — renders price change and favorite button correctly.
+- [x] `vitest-setup` — `vitest.config.ts` (jsdom env), `src/test/setup.ts`
+      (`@testing-library/jest-dom`), update `package.json` scripts (`test`,
+      `test:watch`).
+- [x] `test-formatters` — pure unit tests.
+- [x] `test-api-client` — mocked `fetch`, error path.
+- [x] `test-use-coins-query` — render hook with `QueryClientProvider`.
+- [x] `test-favorites-context` — add / remove / persist.
+- [x] `test-coin-filters` — RTL + `user-event`.
+- [x] `test-coin-row` — renders price change and favorite button correctly.
 
 ### Phase 7 — polish
 
