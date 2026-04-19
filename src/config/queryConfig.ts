@@ -20,3 +20,11 @@ export const COINS_PER_PAGE = 100;
 export const DEFAULT_CURRENCY: SupportedCurrency = 'usd';
 
 export const DEFAULT_CHART_DAYS: MarketChartDays = 7;
+
+/**
+ * Hard cap on the number of favorites fetched in a single `?ids=` request.
+ * CoinGecko comma-joins the ids into the query string, and very long URLs
+ * can be rejected by intermediaries (proxies, CDNs) before reaching the
+ * API. ~200 ids fit comfortably under common 8 KB limits.
+ */
+export const FAVORITES_FETCH_LIMIT = 200;

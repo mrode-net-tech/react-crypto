@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
+
+// Force every anchor in sanitized HTML to open in a new tab with
+// rel="noopener noreferrer" so external links from CoinGecko descriptions
+// can't tabnab the host page via window.opener.
+DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+  if (node.tagName === 'A') {
+    node.setAttribute('target', '_blank');
+    node.setAttribute('rel', 'noopener noreferrer');
+  }
+});
+
 import { ErrorState } from '../../../components/ErrorState';
 import { Spinner } from '../../../components/Spinner';
 import { DEFAULT_CHART_DAYS } from '../../../config/queryConfig';

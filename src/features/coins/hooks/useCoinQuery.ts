@@ -10,7 +10,10 @@ import { COINS_STALE_TIME_MS } from '../../../config/queryConfig';
 export function useCoinQuery(id: string | undefined) {
   return useQuery({
     queryKey: queryKeys.coins.detail(id ?? ''),
-    queryFn: () => fetchCoinById(id as string),
+    queryFn: () => {
+      if (!id) throw new Error('useCoinQuery: id is required');
+      return fetchCoinById(id);
+    },
     enabled: Boolean(id),
     staleTime: COINS_STALE_TIME_MS,
   });

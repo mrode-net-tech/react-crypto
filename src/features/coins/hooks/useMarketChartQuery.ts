@@ -28,7 +28,10 @@ export function useMarketChartQuery({
 }: UseMarketChartQueryArgs) {
   return useQuery({
     queryKey: queryKeys.coins.chart(id ?? '', days),
-    queryFn: () => fetchCoinMarketChart({ id: id as string, days, vsCurrency }),
+    queryFn: () => {
+      if (!id) throw new Error('useMarketChartQuery: id is required');
+      return fetchCoinMarketChart({ id, days, vsCurrency });
+    },
     enabled: Boolean(id),
     staleTime: CHART_STALE_TIME_MS,
   });

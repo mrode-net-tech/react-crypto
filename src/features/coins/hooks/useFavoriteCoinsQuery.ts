@@ -5,6 +5,7 @@ import {
   COINS_REFRESH_INTERVAL_MS,
   COINS_STALE_TIME_MS,
   DEFAULT_CURRENCY,
+  FAVORITES_FETCH_LIMIT,
 } from '../../../config/queryConfig';
 import type { SupportedCurrency } from '../../../types/coingecko';
 
@@ -25,7 +26,9 @@ export function useFavoriteCoinsQuery({
   ids,
   vsCurrency = DEFAULT_CURRENCY,
 }: UseFavoriteCoinsQueryArgs) {
-  const sortedIds = [...ids].sort();
+  // Sort for a stable query key, then cap to keep `?ids=<csv>` URLs short
+  // enough for intermediaries (see FAVORITES_FETCH_LIMIT).
+  const sortedIds = [...ids].sort().slice(0, FAVORITES_FETCH_LIMIT);
 
   return useQuery({
     queryKey: queryKeys.coins.favorites({ vsCurrency, ids: sortedIds }),
