@@ -17,6 +17,12 @@ function toNumberOrNull(v: string): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
+const fieldClass =
+  'h-9 w-full rounded-md border border-slate-300 bg-white px-2 text-sm dark:border-slate-700 dark:bg-slate-950';
+const labelClass = 'flex flex-col gap-1';
+const labelTextClass =
+  'text-xs font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400';
+
 export function CoinFilters({ state, setFilter, reset }: CoinFiltersProps) {
   const onNumber =
     (key: keyof CoinFiltersState) => (e: ChangeEvent<HTMLInputElement>) =>
@@ -25,103 +31,97 @@ export function CoinFilters({ state, setFilter, reset }: CoinFiltersProps) {
   return (
     <section
       aria-label="Filters"
-      className="grid gap-3 rounded-md border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40 md:grid-cols-3 lg:grid-cols-6"
+      className="rounded-md border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"
     >
-      <label className="flex flex-col text-sm md:col-span-2">
-        <span className="mb-1 text-slate-600 dark:text-slate-400">Search</span>
-        <input
-          type="search"
-          value={state.search}
-          onChange={(e) => setFilter('search', e.target.value)}
-          placeholder="Bitcoin, BTC…"
-          className="rounded-md border border-slate-300 bg-white px-2 py-1.5 dark:border-slate-700 dark:bg-slate-950"
-        />
-      </label>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
+        <label className={`${labelClass} sm:col-span-2 lg:col-span-2`}>
+          <span className={labelTextClass}>Search</span>
+          <input
+            type="search"
+            value={state.search}
+            onChange={(e) => setFilter('search', e.target.value)}
+            placeholder="Bitcoin, BTC…"
+            className={fieldClass}
+          />
+        </label>
 
-      <label className="flex flex-col text-sm">
-        <span className="mb-1 text-slate-600 dark:text-slate-400">
-          Min price (USD)
-        </span>
-        <input
-          type="number"
-          inputMode="decimal"
-          value={state.minPrice ?? ''}
-          onChange={onNumber('minPrice')}
-          className="rounded-md border border-slate-300 bg-white px-2 py-1.5 dark:border-slate-700 dark:bg-slate-950"
-        />
-      </label>
+        <label className={labelClass}>
+          <span className={labelTextClass}>Min price</span>
+          <input
+            type="number"
+            inputMode="decimal"
+            value={state.minPrice ?? ''}
+            onChange={onNumber('minPrice')}
+            className={fieldClass}
+          />
+        </label>
 
-      <label className="flex flex-col text-sm">
-        <span className="mb-1 text-slate-600 dark:text-slate-400">
-          Max price (USD)
-        </span>
-        <input
-          type="number"
-          inputMode="decimal"
-          value={state.maxPrice ?? ''}
-          onChange={onNumber('maxPrice')}
-          className="rounded-md border border-slate-300 bg-white px-2 py-1.5 dark:border-slate-700 dark:bg-slate-950"
-        />
-      </label>
+        <label className={labelClass}>
+          <span className={labelTextClass}>Max price</span>
+          <input
+            type="number"
+            inputMode="decimal"
+            value={state.maxPrice ?? ''}
+            onChange={onNumber('maxPrice')}
+            className={fieldClass}
+          />
+        </label>
 
-      <label className="flex flex-col text-sm">
-        <span className="mb-1 text-slate-600 dark:text-slate-400">
-          Min market cap
-        </span>
-        <input
-          type="number"
-          inputMode="numeric"
-          value={state.minMarketCap ?? ''}
-          onChange={onNumber('minMarketCap')}
-          className="rounded-md border border-slate-300 bg-white px-2 py-1.5 dark:border-slate-700 dark:bg-slate-950"
-        />
-      </label>
+        <label className={labelClass}>
+          <span className={labelTextClass}>Min market cap</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            value={state.minMarketCap ?? ''}
+            onChange={onNumber('minMarketCap')}
+            className={fieldClass}
+          />
+        </label>
 
-      <label className="flex flex-col text-sm">
-        <span className="mb-1 text-slate-600 dark:text-slate-400">
-          Min volume
-        </span>
-        <input
-          type="number"
-          inputMode="numeric"
-          value={state.minVolume ?? ''}
-          onChange={onNumber('minVolume')}
-          className="rounded-md border border-slate-300 bg-white px-2 py-1.5 dark:border-slate-700 dark:bg-slate-950"
-        />
-      </label>
+        <label className={labelClass}>
+          <span className={labelTextClass}>Min volume</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            value={state.minVolume ?? ''}
+            onChange={onNumber('minVolume')}
+            className={fieldClass}
+          />
+        </label>
+      </div>
 
-      <label className="flex flex-col text-sm">
-        <span className="mb-1 text-slate-600 dark:text-slate-400">Trend</span>
-        <select
-          value={state.trend}
-          onChange={(e) =>
-            setFilter('trend', e.target.value as GainersLosersFilter)
-          }
-          className="rounded-md border border-slate-300 bg-white px-2 py-1.5 dark:border-slate-700 dark:bg-slate-950"
-        >
-          <option value="all">All</option>
-          <option value="gainers">Gainers (24h)</option>
-          <option value="losers">Losers (24h)</option>
-        </select>
-      </label>
+      <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-slate-200 pt-3 dark:border-slate-800">
+        <label className={`${labelClass} w-40`}>
+          <span className={labelTextClass}>Trend (24h)</span>
+          <select
+            value={state.trend}
+            onChange={(e) =>
+              setFilter('trend', e.target.value as GainersLosersFilter)
+            }
+            className={fieldClass}
+          >
+            <option value="all">All</option>
+            <option value="gainers">Gainers</option>
+            <option value="losers">Losers</option>
+          </select>
+        </label>
 
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={state.favoritesOnly}
-          onChange={(e) => setFilter('favoritesOnly', e.target.checked)}
-          className="h-4 w-4"
-        />
-        <span>Favorites only</span>
-      </label>
+        <label className="flex h-9 cursor-pointer items-center gap-2 self-end rounded-md border border-slate-300 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-950">
+          <input
+            type="checkbox"
+            checked={state.favoritesOnly}
+            onChange={(e) => setFilter('favoritesOnly', e.target.checked)}
+            className="h-4 w-4"
+          />
+          <span>Favorites only</span>
+        </label>
 
-      <div className="flex items-end">
         <button
           type="button"
           onClick={reset}
-          className="rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"
+          className="ml-auto h-9 rounded-md border border-slate-300 px-3 text-sm hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"
         >
-          Reset
+          Reset filters
         </button>
       </div>
     </section>
