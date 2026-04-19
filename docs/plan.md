@@ -70,9 +70,9 @@ See `docs/architecture.md`.
 ### Phase 1 — deps & infrastructure ✅
 
 - [x] `deps-runtime` — `npm i @tanstack/react-query @tanstack/react-query-devtools
-    react-router-dom recharts`.
+react-router-dom recharts`.
 - [x] `deps-test` — `npm i -D vitest @testing-library/react @testing-library/jest-dom
-    @testing-library/user-event jsdom`.
+@testing-library/user-event jsdom`.
 - [x] `prettier-setup` — `npm i -D prettier eslint-config-prettier`, add
       `.prettierrc.json` + `.prettierignore`, append `prettier` to the ESLint flat
       config `extends`, and add `format` / `format:check` scripts in
@@ -84,23 +84,23 @@ See `docs/architecture.md`.
       `<RouterProvider>`, devtools. _ThemeProvider/FavoritesProvider plug in
       during Phase 3 once those contexts exist._
 
-### Phase 2 — typed data layer
+### Phase 2 — typed data layer ✅
 
-- `types-coingecko` — `src/types/coingecko.ts` (`CoinMarket`, `CoinDetails`,
-  `MarketChartPoint`, query params).
-- `api-client` — `src/lib/apiClient.ts` (typed `fetchJson<T>(path, params?)`,
-  baseURL from env, error handling, no `any`).
-- `query-keys` — `src/lib/queryKeys.ts` factory
-  (`coins.list({page,currency,...})`, `coins.detail(id)`, `coins.chart(id, days)`).
-- `coins-api` — `features/coins/api/fetchCoins.ts` (`/coins/markets`,
-  `per_page=100`, `vs_currency=usd`, `sparkline=false`, `price_change_percentage`).
-- `coin-api` — `features/coins/api/fetchCoinById.ts` (`/coins/{id}`).
-- `chart-api` — `features/coins/api/fetchCoinMarketChart.ts`
-  (`/coins/{id}/market_chart`, `days` param).
-- `use-coins-query` — `features/coins/hooks/useCoinsQuery.ts`
-  (`refetchInterval: 60_000`, `staleTime: 60_000`).
-- `use-coin-query` — `features/coins/hooks/useCoinQuery.ts`.
-- `use-market-chart-query` — `features/coins/hooks/useMarketChartQuery.ts`.
+- [x] `types-coingecko` — `src/types/coingecko.ts` (`CoinMarket`, `CoinDetails`,
+      `MarketChartPoint`, query params).
+- [x] `api-client` — `src/lib/apiClient.ts` (typed `fetchJson<T>(path, params?)`,
+      baseURL from env, error handling, no `any`).
+- [x] `query-keys` — `src/lib/queryKeys.ts` factory
+      (`coins.list({page,currency,...})`, `coins.detail(id)`, `coins.chart(id, days)`).
+- [x] `coins-api` — `features/coins/api/fetchCoins.ts` (`/coins/markets`,
+      `per_page=100`, `vs_currency=usd`, `sparkline=false`, `price_change_percentage`).
+- [x] `coin-api` — `features/coins/api/fetchCoinById.ts` (`/coins/{id}`).
+- [x] `chart-api` — `features/coins/api/fetchCoinMarketChart.ts`
+      (`/coins/{id}/market_chart`, `days` param).
+- [x] `use-coins-query` — `features/coins/hooks/useCoinsQuery.ts`
+      (`refetchInterval: 60_000`, `staleTime: 60_000`).
+- [x] `use-coin-query` — `features/coins/hooks/useCoinQuery.ts`.
+- [x] `use-market-chart-query` — `features/coins/hooks/useMarketChartQuery.ts`.
 
 ### Phase 3 — contexts
 

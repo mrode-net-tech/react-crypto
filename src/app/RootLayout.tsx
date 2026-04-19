@@ -9,7 +9,7 @@ export default function RootLayout() {
             to="/"
             className="text-lg font-semibold tracking-tight hover:opacity-80"
           >
-            react-crypto
+            Crypto Coins
           </Link>
           {/* ThemeToggle slot — added in Phase 3 */}
         </div>
