@@ -1,43 +1,48 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { ErrorState } from '../../../components/ErrorState';
+import { Pagination } from '../../../components/Pagination';
 import { Spinner } from '../../../components/Spinner';
+import { COINS_PER_PAGE } from '../../../config/queryConfig';
 import { useFavorites } from '../../../contexts/favorites';
-import type { CoinMarket } from '../../../types/coingecko';
-import { useSort } from '../../../hooks/useSort';
 import { useCoinsQuery } from '../hooks/useCoinsQuery';
-import { useCoinFilters } from '../hooks/useCoinFilters';
+import { useCoinsControls } from '../hooks/useCoinsControls';
 import { CoinFilters } from '../components/CoinFilters';
-import { CoinsTable, type CoinSortKey } from '../components/CoinsTable';
-
-const accessor = (item: CoinMarket, key: CoinSortKey) =>
-  key === 'name' ? item.name : (item[key] as number | null | undefined);
+import { CoinsTable } from '../components/CoinsTable';
 
 export default function CoinsListPage() {
-  const { data, isPending, isError, refetch, isFetching } = useCoinsQuery();
+  const { state, setOrder, setCategory, setPage, setFavoritesOnly, reset } =
+    useCoinsControls();
+
+  const { data, isPending, isError, refetch, isFetching } = useCoinsQuery({
+    page: state.page,
+    order: state.order,
+    category: state.category,
+  });
+
   const { has } = useFavorites();
-  const { filters, setFilter, reset, apply } = useCoinFilters();
 
-  const isFavorite = useCallback((id: string) => has(id), [has]);
-  const filtered = useMemo(
-    () => (data ? apply(data, isFavorite) : []),
-    [data, apply, isFavorite],
-  );
+  const visible = useMemo(() => {
+    if (!data) return [];
+    return state.favoritesOnly ? data.filter((c) => has(c.id)) : data;
+  }, [data, state.favoritesOnly, has]);
 
-  const { sorted, sortKey, direction, toggleSort } = useSort<
-    CoinMarket,
-    CoinSortKey
-  >(filtered, { key: 'market_cap_rank', direction: 'asc' }, accessor);
+  const hasNext = (data?.length ?? 0) >= COINS_PER_PAGE;
 
   return (
     <section className="space-y-4">
       <header className="flex items-baseline justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Top 100 cryptocurrencies</h1>
+        <h1 className="text-2xl font-semibold">Cryptocurrencies</h1>
         <span className="text-xs text-slate-500" aria-live="polite">
           {isFetching ? 'Refreshing…' : 'Live (refresh every 60s)'}
         </span>
       </header>
 
-      <CoinFilters state={filters} setFilter={setFilter} reset={reset} />
+      <CoinFilters
+        state={state}
+        setCategory={setCategory}
+        setFavoritesOnly={setFavoritesOnly}
+        reset={reset}
+      />
 
       {isPending && <Spinner label="Loading coins…" />}
       {isError && (
@@ -51,14 +56,19 @@ export default function CoinsListPage() {
       {!isPending && !isError && (
         <>
           <CoinsTable
-            coins={sorted}
-            sortKey={sortKey}
-            direction={direction}
-            onToggleSort={toggleSort}
+            coins={visible}
+            order={state.order}
+            onChangeOrder={setOrder}
           />
           <p className="text-xs text-slate-500">
-            Showing {sorted.length} of {data?.length ?? 0} coins.
+            Showing {visible.length} of {data?.length ?? 0} coins on this page.
           </p>
+          <Pagination
+            page={state.page}
+            hasNext={hasNext}
+            isFetching={isFetching}
+            onPageChange={setPage}
+          />
         </>
       )}
     </section>

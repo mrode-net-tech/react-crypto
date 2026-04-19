@@ -7,34 +7,39 @@ import {
   COINS_STALE_TIME_MS,
   DEFAULT_CURRENCY,
 } from '../../../config/queryConfig';
-import type { SupportedCurrency } from '../../../types/coingecko';
+import type { CoinsOrder, SupportedCurrency } from '../../../types/coingecko';
 
 export interface UseCoinsQueryArgs {
   vsCurrency?: SupportedCurrency;
   page?: number;
   perPage?: number;
+  order?: CoinsOrder;
+  category?: string | null;
 }
 
 /**
  * Coins list query.
  *
- * - `staleTime: 60_000` — match the auto-refresh cadence; remounts within a
- *   minute reuse the cache instead of firing a new request.
- * - `refetchInterval: 60_000` — satisfies the PDF spec ("real-time updates,
- *   60s interval"). Only this query polls; defaults from `queryClient.ts`
- *   keep everything else quiet.
- * - `placeholderData: keepPreviousData` — when `page` changes, the table
- *   keeps showing the previous page until the next one arrives, so the UI
- *   doesn't flash a spinner / collapse to zero rows.
+ * Server-driven inputs (`page`, `order`, `category`) flow through to
+ * the URL — every change refetches with a different cache key. Pure
+ * client-only concerns (favorites filter) live elsewhere.
  */
 export function useCoinsQuery({
   vsCurrency = DEFAULT_CURRENCY,
   page = 1,
   perPage = COINS_PER_PAGE,
+  order = 'market_cap_desc',
+  category = null,
 }: UseCoinsQueryArgs = {}) {
   return useQuery({
-    queryKey: queryKeys.coins.list({ vsCurrency, page, perPage }),
-    queryFn: () => fetchCoins({ vsCurrency, page, perPage }),
+    queryKey: queryKeys.coins.list({
+      vsCurrency,
+      page,
+      perPage,
+      order,
+      category,
+    }),
+    queryFn: () => fetchCoins({ vsCurrency, page, perPage, order, category }),
     staleTime: COINS_STALE_TIME_MS,
     refetchInterval: COINS_REFRESH_INTERVAL_MS,
     placeholderData: keepPreviousData,

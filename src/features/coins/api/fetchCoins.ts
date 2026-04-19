@@ -1,10 +1,16 @@
-import { fetchJson } from '../../../lib/apiClient';
-import type { CoinMarket, SupportedCurrency } from '../../../types/coingecko';
+import { fetchJson, type QueryParamPrimitive } from '../../../lib/apiClient';
+import type {
+  CoinMarket,
+  CoinsOrder,
+  SupportedCurrency,
+} from '../../../types/coingecko';
 
 export interface FetchCoinsArgs {
   vsCurrency: SupportedCurrency;
   page: number;
   perPage: number;
+  order: CoinsOrder;
+  category: string | null;
 }
 
 /**
@@ -16,13 +22,17 @@ export function fetchCoins({
   vsCurrency,
   page,
   perPage,
+  order,
+  category,
 }: FetchCoinsArgs): Promise<CoinMarket[]> {
-  return fetchJson<CoinMarket[]>('/coins/markets', {
+  const params: Record<string, QueryParamPrimitive | undefined> = {
     vs_currency: vsCurrency,
-    order: 'market_cap_desc',
+    order,
     per_page: perPage,
     page,
     sparkline: false,
     price_change_percentage: '1h,24h,7d',
-  });
+  };
+  if (category) params.category = category;
+  return fetchJson<CoinMarket[]>('/coins/markets', params);
 }

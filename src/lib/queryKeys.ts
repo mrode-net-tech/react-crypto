@@ -1,4 +1,8 @@
-import type { MarketChartDays, SupportedCurrency } from '../types/coingecko';
+import type {
+  CoinsOrder,
+  MarketChartDays,
+  SupportedCurrency,
+} from '../types/coingecko';
 
 /*
   Centralized TanStack Query keys (factory pattern).
@@ -13,6 +17,8 @@ export interface CoinsListParams {
   vsCurrency: SupportedCurrency;
   page: number;
   perPage: number;
+  order: CoinsOrder;
+  category: string | null;
 }
 
 export const queryKeys = {
@@ -22,5 +28,6 @@ export const queryKeys = {
     detail: (id: string) => ['coins', 'detail', id] as const,
     chart: (id: string, days: MarketChartDays) =>
       ['coins', 'chart', id, days] as const,
+    categories: ['coins', 'categories'] as const,
   },
 } as const;

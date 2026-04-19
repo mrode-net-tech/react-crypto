@@ -11,10 +11,26 @@ export type SupportedCurrency = 'usd';
 /** `days` window for the market chart endpoint (matches the UI selector). */
 export type MarketChartDays = 1 | 7 | 30 | 365;
 
+/** All `order` values supported by `GET /coins/markets`. */
+export type CoinsOrder =
+  | 'market_cap_desc'
+  | 'market_cap_asc'
+  | 'volume_desc'
+  | 'volume_asc'
+  | 'id_asc'
+  | 'id_desc';
+
+/** A category from `GET /coins/categories/list`. */
+export interface CoinCategory {
+  category_id: string;
+  name: string;
+}
+
 /** Request params for `GET /coins/markets`. */
 export interface CoinsMarketsParams {
   vs_currency: SupportedCurrency;
-  order?: 'market_cap_desc' | 'market_cap_asc' | 'volume_desc' | 'volume_asc';
+  order?: CoinsOrder;
+  category?: string;
   per_page?: number;
   page?: number;
   sparkline?: boolean;

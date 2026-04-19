@@ -1,68 +1,58 @@
-import type { CoinMarket } from '../../../types/coingecko';
+import type { CoinMarket, CoinsOrder } from '../../../types/coingecko';
 import { CoinRow } from './CoinRow';
-import type { SortDirection } from '../../../hooks/useSort';
-
-export type CoinSortKey =
-  | 'market_cap_rank'
-  | 'name'
-  | 'current_price'
-  | 'price_change_percentage_1h_in_currency'
-  | 'price_change_percentage_24h_in_currency'
-  | 'price_change_percentage_7d_in_currency'
-  | 'market_cap'
-  | 'total_volume';
 
 interface ColumnDef {
-  key: CoinSortKey;
   label: string;
   align: 'left' | 'right';
-  srOnly?: boolean;
+  /** Map this column to a CoinGecko `order` pair. Omit if not server-sortable. */
+  sort?: { asc: CoinsOrder; desc: CoinsOrder };
 }
 
 const COLUMNS: ColumnDef[] = [
-  { key: 'market_cap_rank', label: '#', align: 'left' },
-  { key: 'name', label: 'Name', align: 'left' },
-  { key: 'current_price', label: 'Price', align: 'right' },
   {
-    key: 'price_change_percentage_1h_in_currency',
-    label: '1h %',
+    label: '#',
+    align: 'left',
+    sort: { asc: 'market_cap_desc', desc: 'market_cap_asc' },
+  },
+  { label: 'Name', align: 'left', sort: { asc: 'id_asc', desc: 'id_desc' } },
+  { label: 'Price', align: 'right' },
+  { label: '1h %', align: 'right' },
+  { label: '24h %', align: 'right' },
+  { label: '7d %', align: 'right' },
+  {
+    label: 'Market Cap',
     align: 'right',
+    sort: { asc: 'market_cap_asc', desc: 'market_cap_desc' },
   },
   {
-    key: 'price_change_percentage_24h_in_currency',
-    label: '24h %',
+    label: 'Volume (24h)',
     align: 'right',
+    sort: { asc: 'volume_asc', desc: 'volume_desc' },
   },
-  {
-    key: 'price_change_percentage_7d_in_currency',
-    label: '7d %',
-    align: 'right',
-  },
-  { key: 'market_cap', label: 'Market Cap', align: 'right' },
-  { key: 'total_volume', label: 'Volume (24h)', align: 'right' },
 ];
 
 interface CoinsTableProps {
   coins: CoinMarket[];
-  sortKey: CoinSortKey;
-  direction: SortDirection;
-  onToggleSort: (key: CoinSortKey) => void;
+  order: CoinsOrder;
+  onChangeOrder: (order: CoinsOrder) => void;
 }
 
 function ariaSortFor(
-  active: boolean,
-  direction: SortDirection,
+  col: ColumnDef,
+  order: CoinsOrder,
 ): 'ascending' | 'descending' | 'none' {
-  if (!active) return 'none';
-  return direction === 'asc' ? 'ascending' : 'descending';
+  if (!col.sort) return 'none';
+  if (order === col.sort.asc) return 'ascending';
+  if (order === col.sort.desc) return 'descending';
+  return 'none';
 }
 
-export function CoinsTable({
-  coins,
-  sortKey,
-  direction,
-  onToggleSort,
-}: CoinsTableProps) {
+function nextOrder(col: ColumnDef, order: CoinsOrder): CoinsOrder | null {
+  if (!col.sort) return null;
+  return order === col.sort.desc ? col.sort.asc : col.sort.desc;
+}
+
+export function CoinsTable({ coins, order, onChangeOrder }: CoinsTableProps) {
   return (
     <div className="overflow-x-auto rounded-md border border-slate-200 dark:border-slate-800">
       <table className="min-w-full text-sm">
@@ -72,26 +62,34 @@ export function CoinsTable({
               <span className="sr-only">Favorite</span>
             </th>
             {COLUMNS.map((col) => {
-              const active = sortKey === col.key;
+              const sortState = ariaSortFor(col, order);
+              const sortable = Boolean(col.sort);
               return (
                 <th
-                  key={col.key}
+                  key={col.label}
                   scope="col"
-                  aria-sort={ariaSortFor(active, direction)}
+                  aria-sort={sortState}
                   className={`px-3 py-2 ${col.align === 'right' ? 'text-right' : 'text-left'}`}
                 >
-                  <button
-                    type="button"
-                    onClick={() => onToggleSort(col.key)}
-                    className="inline-flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100"
-                  >
+                  {sortable ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = nextOrder(col, order);
+                        if (next) onChangeOrder(next);
+                      }}
+                      className="inline-flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100"
+                    >
+                      <span>{col.label}</span>
+                      {sortState !== 'none' && (
+                        <span aria-hidden="true">
+                          {sortState === 'ascending' ? '▲' : '▼'}
+                        </span>
+                      )}
+                    </button>
+                  ) : (
                     <span>{col.label}</span>
-                    {active && (
-                      <span aria-hidden="true">
-                        {direction === 'asc' ? '▲' : '▼'}
-                      </span>
-                    )}
-                  </button>
+                  )}
                 </th>
               );
             })}
