@@ -5,8 +5,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from 'react-router-dom';
 import { queryClient } from './app/queryClient';
 import { router } from './app/router';
-import { ThemeProvider } from './contexts/ThemeProvider';
-import { FavoritesProvider } from './contexts/FavoritesProvider';
+import { ThemeProvider } from './contexts/theme';
+import { FavoritesProvider } from './contexts/favorites';
 import './styles/index.css';
 
 const rootElement = document.getElementById('root');
