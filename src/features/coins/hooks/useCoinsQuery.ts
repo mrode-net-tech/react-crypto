@@ -1,6 +1,12 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { fetchCoins } from '../api/fetchCoins';
 import { queryKeys } from '../../../lib/queryKeys';
+import {
+  COINS_PER_PAGE,
+  COINS_REFRESH_INTERVAL_MS,
+  COINS_STALE_TIME_MS,
+  DEFAULT_CURRENCY,
+} from '../../../config/queryConfig';
 import type { SupportedCurrency } from '../../../types/coingecko';
 
 export interface UseCoinsQueryArgs {
@@ -22,15 +28,15 @@ export interface UseCoinsQueryArgs {
  *   doesn't flash a spinner / collapse to zero rows.
  */
 export function useCoinsQuery({
-  vsCurrency = 'usd',
+  vsCurrency = DEFAULT_CURRENCY,
   page = 1,
-  perPage = 100,
+  perPage = COINS_PER_PAGE,
 }: UseCoinsQueryArgs = {}) {
   return useQuery({
     queryKey: queryKeys.coins.list({ vsCurrency, page, perPage }),
     queryFn: () => fetchCoins({ vsCurrency, page, perPage }),
-    staleTime: 60_000,
-    refetchInterval: 60_000,
+    staleTime: COINS_STALE_TIME_MS,
+    refetchInterval: COINS_REFRESH_INTERVAL_MS,
     placeholderData: keepPreviousData,
   });
 }

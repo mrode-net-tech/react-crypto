@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchCoinMarketChart } from '../api/fetchCoinMarketChart';
 import { queryKeys } from '../../../lib/queryKeys';
+import {
+  CHART_STALE_TIME_MS,
+  DEFAULT_CURRENCY,
+} from '../../../config/queryConfig';
 import type {
   MarketChartDays,
   SupportedCurrency,
@@ -20,12 +24,12 @@ export interface UseMarketChartQueryArgs {
 export function useMarketChartQuery({
   id,
   days,
-  vsCurrency = 'usd',
+  vsCurrency = DEFAULT_CURRENCY,
 }: UseMarketChartQueryArgs) {
   return useQuery({
     queryKey: queryKeys.coins.chart(id ?? '', days),
     queryFn: () => fetchCoinMarketChart({ id: id as string, days, vsCurrency }),
     enabled: Boolean(id),
-    staleTime: 5 * 60_000,
+    staleTime: CHART_STALE_TIME_MS,
   });
 }
