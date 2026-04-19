@@ -34,7 +34,8 @@ const COLUMNS: ColumnDef[] = [
 interface CoinsTableProps {
   coins: CoinMarket[];
   order: CoinsOrder;
-  onChangeOrder: (order: CoinsOrder) => void;
+  /** When omitted, headers render as plain labels (no sort affordance). */
+  onChangeOrder?: (order: CoinsOrder) => void;
 }
 
 function ariaSortFor(
@@ -63,7 +64,7 @@ export function CoinsTable({ coins, order, onChangeOrder }: CoinsTableProps) {
             </th>
             {COLUMNS.map((col) => {
               const sortState = ariaSortFor(col, order);
-              const sortable = Boolean(col.sort);
+              const sortable = Boolean(col.sort) && Boolean(onChangeOrder);
               return (
                 <th
                   key={col.label}
@@ -76,7 +77,7 @@ export function CoinsTable({ coins, order, onChangeOrder }: CoinsTableProps) {
                       type="button"
                       onClick={() => {
                         const next = nextOrder(col, order);
-                        if (next) onChangeOrder(next);
+                        if (next) onChangeOrder?.(next);
                       }}
                       className="inline-flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100"
                     >

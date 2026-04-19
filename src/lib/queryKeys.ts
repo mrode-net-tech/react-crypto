@@ -29,5 +29,9 @@ export const queryKeys = {
     chart: (id: string, days: MarketChartDays) =>
       ['coins', 'chart', id, days] as const,
     categories: ['coins', 'categories'] as const,
+    favorites: (params: {
+      vsCurrency: SupportedCurrency;
+      ids: readonly string[];
+    }) => ['coins', 'favorites', params] as const,
   },
 } as const;
